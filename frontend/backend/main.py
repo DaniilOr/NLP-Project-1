@@ -139,8 +139,9 @@ def parse(url: str, is_forced:bool):
     #db.commit()
 
     print("Time to run: ", end - cur)
-
-    return [i.__dict__ for i in results]
+    results = [i.__dict__ for i in results]
+    print(results)
+    return results
 
 
 # @app.get("/db")
