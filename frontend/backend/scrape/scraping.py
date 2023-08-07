@@ -54,7 +54,8 @@ def extract_website(website_base_url):
     for webpage_url in tqdm(all_webpages):
         try:
             data[webpage_url] = extract_webpage(webpage_url)
-        except:
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             pass
 
     return {website_base_url: data} 
