@@ -137,13 +137,13 @@ def aggr_scores(results):
     biaslabs = np.array([np.argmax(i) for i in biasscores])
     factlabs = np.array([np.argmax(i) for i in factscores])
 
-    aggregatedBiasScores.append(np.count_nonzero(biaslabs == 0)/len(biaslabs) or 1)
-    aggregatedBiasScores.append(np.count_nonzero(biaslabs == 1)/len(biaslabs) or 1)
-    aggregatedBiasScores.append(np.count_nonzero(biaslabs == 2)/len(biaslabs) or 1)
+    aggregatedBiasScores.append(np.count_nonzero(biaslabs == 0)/(len(biaslabs) or 1))
+    aggregatedBiasScores.append(np.count_nonzero(biaslabs == 1)/(len(biaslabs) or 1))
+    aggregatedBiasScores.append(np.count_nonzero(biaslabs == 2)/(len(biaslabs) or 1))
 
-    aggregatedFactScores.append(np.count_nonzero(factlabs == 0)/len(factlabs) or 1)
-    aggregatedFactScores.append(np.count_nonzero(factlabs == 1)/len(factlabs) or 1)
-    aggregatedFactScores.append(np.count_nonzero(factlabs == 2)/len(factlabs) or 1)
+    aggregatedFactScores.append(np.count_nonzero(factlabs == 0)/(len(factlabs) or 1))
+    aggregatedFactScores.append(np.count_nonzero(factlabs == 1)/(len(factlabs) or 1))
+    aggregatedFactScores.append(np.count_nonzero(factlabs == 2)/(len(factlabs) or 1))
     #finalResult = results[0]
     finalResult = {
         'bias_results': {
