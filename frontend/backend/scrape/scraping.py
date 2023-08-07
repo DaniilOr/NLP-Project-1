@@ -16,6 +16,9 @@ def extract_webpage(webpage_url):
         dict: A dictionary object containing raw html and processed html.
     """
     downloaded_raw_html = trafilatura.fetch_url(webpage_url)
+    from trafilatura.settings import use_config
+    newconfig = use_config()
+    newconfig.set("DEFAULT", "EXTRACTION_TIMEOUT", "0")
 
     # discard potential comment and change the output to JSON
     result = trafilatura.extract(
@@ -25,7 +28,8 @@ def extract_webpage(webpage_url):
         include_comments=True,
         include_images=True,
         include_links=True,
-        include_tables=True
+        include_tables=True,
+        config=newconfig
     )
 
     result = json.loads(result)
