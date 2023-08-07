@@ -33,7 +33,6 @@ def extract_webpage(webpage_url):
     )
 
     result = json.loads(result)
-    print(result)
     return {"raw_html": downloaded_raw_html, "processed_data": result}
 
 
