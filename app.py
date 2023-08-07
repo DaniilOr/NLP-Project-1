@@ -182,7 +182,7 @@ if __name__ == "__main__":
             bottom_half_landing.empty()
             with st.spinner('Scraping...'):
                 results = tp.make_request(news_src)
-
+                print(results)
             # results = tp.aggr_scores(results)
 
             # biasfig = tp.plotbias(results['bias_results'])
