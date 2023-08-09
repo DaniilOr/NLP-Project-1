@@ -6,9 +6,9 @@ import numpy as np
 import os
 import transformers
 import requests
-
+F_KEY = os.environ.get("BIAS_KEY")
 FACT_API_URL = "https://api-inference.huggingface.co/models/stealthpy/sb-temfac"
-fact_headers = {"Authorization": "Bearer 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"}
+fact_headers = {"Authorization": f"Bearer {F_KEY}"}
 
 BIAS_API_URL = "https://api-inference.huggingface.co/models/theArif/mbzuai-political-bias-bert"
 bias_headers = {"Authorization": "Bearer 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"}
