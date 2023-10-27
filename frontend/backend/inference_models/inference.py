@@ -1,3 +1,5 @@
+import time
+
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from typing import List
 import torch
@@ -6,10 +8,9 @@ import numpy as np
 import os
 import transformers
 import requests
-F_KEY = os.environ.get("BIAS_KEY")
+
 FACT_API_URL = "https://api-inference.huggingface.co/models/stealthpy/sb-temfac"
-print(f"Bearer {F_KEY}")
-fact_headers = {"Authorization": f"Bearer {F_KEY}"}
+fact_headers = {"Authorization": "Bearer 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"}
 
 BIAS_API_URL = "https://api-inference.huggingface.co/models/theArif/mbzuai-political-bias-bert"
 bias_headers = {"Authorization": "Bearer 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"}
@@ -37,7 +38,10 @@ class ModelInference:
                     'max_length': 512
                 }
             })
-            print(output)
+            print("Output:", output)
+            if 'error' in output:
+                time.sleep(30)
+                return self.predict(batch)
             for each in output:
                 res.append([each[2]['score'], each[1]['score'], each[0]['score']])
         elif self.inference_type == "bias":
@@ -49,7 +53,10 @@ class ModelInference:
                     'max_length': 512
                 }
             })
-            print(output)
+            print("Output:", output)
+            if 'error' in output:
+                time.sleep(30)
+                return self.predict(batch)
             for each in output:
                 res.append([each[0]['score'], each[1]['score'], each[2]['score']])
         res = np.array(res)
