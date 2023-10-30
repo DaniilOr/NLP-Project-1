@@ -119,7 +119,7 @@ def plotpers(result):
 def aggr_scores(results):
     biasscores = []
     factscores = []
-    print(results)
+    print("RESULTS", results)
     aggregatedBiasScores = []
     aggregatedFactScores = []
     nelas = []
