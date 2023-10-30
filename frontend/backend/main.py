@@ -76,8 +76,11 @@ def nela_process(text):
 #         db.close()
 
 
-#@app.get("/parse", response_model=List[RES])
-#@cache(60, key_builder=request_key_builder)
+# @app.get("/parse", response_model=List[RES])
+# @cache(60, key_builder=request_key_builder)
+from functools import lru_cache
+
+@lru_cache(maxsize=256)
 def parse(url: str, is_forced:bool):
     db = SessionLocal()
     ## Check if it was already analyzed
@@ -111,7 +114,7 @@ def parse(url: str, is_forced:bool):
         txts.append(a.txt)
     preds_factuality = []
     preds_bias = []    
-    for chunk in chunked(txts[:50], 64):
+    for chunk in chunked(txts[:20], 64):
         biasresults = biasmodel.predict(chunk)
         factresults = factmodel.predict(chunk)
         preds_bias.extend(biasresults)
@@ -120,7 +123,7 @@ def parse(url: str, is_forced:bool):
     # db.flush()
 
     pool = Pool(4)
-    nela_preds = pool.map(nela_process, txts[:50])
+    nela_preds = pool.map(nela_process, txts[:20])
     # print(nela_preds)
     for factresults, biasresults, a, nel in zip(preds_factuality, preds_bias, articles, nela_preds):
         r = Results(
@@ -139,9 +142,8 @@ def parse(url: str, is_forced:bool):
     #db.commit()
 
     print("Time to run: ", end - cur)
-    results = [i.__dict__ for i in results]
-    print(results)
-    return results
+
+    return [i.__dict__ for i in results]
 
 
 # @app.get("/db")
