@@ -119,7 +119,7 @@ def plotpers(result):
 def aggr_scores(results):
     biasscores = []
     factscores = []
-    print("RESULTS", results)
+    print('Results', results)
     aggregatedBiasScores = []
     aggregatedFactScores = []
     nelas = []
@@ -134,25 +134,26 @@ def aggr_scores(results):
         biasscores.append(list(biasresults['Scores'].values()))
         factscores.append(list(factresults['Scores'].values()))
 
-    biaslabs = np.array([np.argmax(i) for i in biasscores])
-    factlabs = np.array([np.argmax(i) for i in factscores])
+    aggregatedBiasScores = np.array([i for i in biasscores]).sum(axis=0)
+    aggregatedFactScores = np.array([i for i in factscores]).sum(axis=0)
+    print("bias", aggregatedBiasScores)
 
-    aggregatedBiasScores.append(np.count_nonzero(biaslabs == 0)/(len(biaslabs) or 1))
-    aggregatedBiasScores.append(np.count_nonzero(biaslabs == 1)/(len(biaslabs) or 1))
-    aggregatedBiasScores.append(np.count_nonzero(biaslabs == 2)/(len(biaslabs) or 1))
 
-    aggregatedFactScores.append(np.count_nonzero(factlabs == 0)/(len(factlabs) or 1))
-    aggregatedFactScores.append(np.count_nonzero(factlabs == 1)/(len(factlabs) or 1))
-    aggregatedFactScores.append(np.count_nonzero(factlabs == 2)/(len(factlabs) or 1))
+    print("Bias score", aggregatedBiasScores)
+    print("Fact scores", aggregatedFactScores)
     #finalResult = results[0]
     finalResult = {
         'bias_results': {
             "Bias": {"0": "Left", "1": "Center", "2": "Right"},
-            "Scores": {"0": aggregatedBiasScores[0], "1": aggregatedBiasScores[1], "2": aggregatedBiasScores[2]}
+            "Scores": {"0": aggregatedBiasScores[0]/aggregatedBiasScores.sum(),
+                       "1": aggregatedBiasScores[1]/aggregatedBiasScores.sum(),
+                       "2": aggregatedBiasScores[2]/aggregatedBiasScores.sum()}
         },
         'factuality_results': {
             "Factuality": {"0": "Low Factuality", "1": "Mixed Factuality", "2": "High Factuality"},
-            "Scores": {"0": aggregatedFactScores[0], "1": aggregatedFactScores[1], "2": aggregatedFactScores[2]}
+            "Scores": {"0": aggregatedFactScores[0]/aggregatedFactScores.sum(),
+                       "1": aggregatedFactScores[1]/aggregatedFactScores.sum(),
+                       "2": aggregatedFactScores[2]/aggregatedFactScores.sum()}
         },
         "date": max(times) if len(times) > 0 else datetime.datetime.now(),
         'nela': calculate_mean_per_key(nelas),
